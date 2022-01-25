@@ -3,7 +3,8 @@ const mysql = require('mysql2')
 const myconn = require('express-myconnection')
 require('dotenv').config()
 const app = express()
-const routes = require('./routes')
+const CityRouter = require('./routes/cityRoutes')
+const AreaRouter = require('./routes/areaRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -23,7 +24,8 @@ app.get('/', (req, res)=> {
     res.send('Probando API')
 })
 
-app.use('/api', routes)
+app.use('/city', CityRouter)
+app.use('/area', AreaRouter)
 
 app.listen(app.get('port'), () => {
     console.log("Server is running on port ", app.get('port'));

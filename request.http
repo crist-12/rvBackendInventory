@@ -1,9 +1,28 @@
 
 
-
+###
 PUT http://localhost:9000/api/6 HTTP/1.1
 Content-Type: application/json
 
 {
     "NombreCiudad": "San Nicolás"
+}
+
+###
+GET http://localhost:9000/area HTTP/1.1
+
+###
+POST http://localhost:9000/area HTTP/1.1
+Content-Type: application/json
+
+{
+    "DescripcionArea": "Marketing"
+}
+
+###
+PUT http://localhost:9000/area/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "DescripcionArea": "MKT"
 }
