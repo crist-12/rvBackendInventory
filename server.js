@@ -5,6 +5,7 @@ require('dotenv').config()
 const app = express()
 const CityRouter = require('./routes/cityRoutes')
 const AreaRouter = require('./routes/areaRoutes')
+const CategoryRouter = require('./routes/categoryRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -26,6 +27,7 @@ app.get('/', (req, res)=> {
 
 app.use('/city', CityRouter)
 app.use('/area', AreaRouter)
+app.use('/category', CategoryRouter)
 
 app.listen(app.get('port'), () => {
     console.log("Server is running on port ", app.get('port'));
