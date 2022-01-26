@@ -6,6 +6,12 @@ const app = express()
 const CityRouter = require('./routes/cityRoutes')
 const AreaRouter = require('./routes/areaRoutes')
 const CategoryRouter = require('./routes/categoryRoutes')
+const EmployeeRouter = require('./routes/employeeRoutes')
+const MachinesRouter = require('./routes/machinesRoutes')
+const SurcursalesRouter = require('./routes/sucursalesRoutes')
+const MaintenanceRouter = require('./routes/maintenanceRoutes')
+const BitacoraRouter = require('./routes/bitacoraRoutes')
+const AssignmentRouter = require('./routes/assigmentsRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -28,6 +34,13 @@ app.get('/', (req, res)=> {
 app.use('/city', CityRouter)
 app.use('/area', AreaRouter)
 app.use('/category', CategoryRouter)
+app.use('/employee', EmployeeRouter)
+app.use('/bitacora', BitacoraRouter)
+app.use('/machines', MachinesRouter)
+app.use('/sucursales', SurcursalesRouter)
+app.use('/maintenance', MaintenanceRouter)
+app.use('/assignment', AssignmentRouter)
+
 
 app.listen(app.get('port'), () => {
     console.log("Server is running on port ", app.get('port'));

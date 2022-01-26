@@ -6,7 +6,7 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT * FROM areas", (err, rows) => {
+        conn.query("SELECT * FROM equipos", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -17,7 +17,7 @@ routes.get('/', (req, res)=>{
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
-        conn.query("SELECT * FROM areas WHERE IdArea = ?", [req.params.id], (err, rows) => {
+        conn.query("SELECT * FROM equipos WHERE IdEquipo = ?", [req.params.id], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -28,7 +28,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO areas SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO equipos SET ?',[req.body], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -40,7 +40,7 @@ routes.post('/', (req, res)=>{
 routes.delete('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('DELETE FROM areas WHERE IdArea = ?',[req.params.id], (err, rows)=>{
+        conn.query('DELETE FROM equipos WHERE IdEquipo = ?',[req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -52,7 +52,7 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE areas SET  ? WHERE IdArea = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE equipos SET  ? WHERE IdEquipo = ?',[req.body, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

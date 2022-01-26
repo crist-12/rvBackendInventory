@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/area HTTP/1.1
+GET http://localhost:9000/city/1 HTTP/1.1
 
 ###
 POST http://localhost:9000/area HTTP/1.1
