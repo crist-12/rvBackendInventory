@@ -1,8 +1,13 @@
 const express = require('express')
 const mysql = require('mysql2')
 const myconn = require('express-myconnection')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
+const cors = require('cors')
 require('dotenv').config()
 const app = express()
+
 const CityRouter = require('./routes/cityRoutes')
 const AreaRouter = require('./routes/areaRoutes')
 const CategoryRouter = require('./routes/categoryRoutes')
@@ -12,6 +17,7 @@ const SurcursalesRouter = require('./routes/sucursalesRoutes')
 const MaintenanceRouter = require('./routes/maintenanceRoutes')
 const BitacoraRouter = require('./routes/bitacoraRoutes')
 const AssignmentRouter = require('./routes/assigmentsRoutes')
+const AuthRouter = require('./routes/authRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -24,12 +30,32 @@ const dbOptions = {
     database: process.env.DB_NAME
 }
 
+
+
 app.use(myconn(mysql, dbOptions, 'single'))
 app.use(express.json())
-app.get('/', (req, res)=> {
-    console.log(process.env.DB_PASSWORD)
-    res.send('Probando API')
-})
+
+
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
+
+
+
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(session({
+    key: "session-key",
+    secret: "secret",
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+       expires: 60 * 30
+    }
+}))
 
 app.use('/city', CityRouter)
 app.use('/area', AreaRouter)
@@ -40,6 +66,14 @@ app.use('/machines', MachinesRouter)
 app.use('/sucursales', SurcursalesRouter)
 app.use('/maintenance', MaintenanceRouter)
 app.use('/assignment', AssignmentRouter)
+app.use('/auth', AuthRouter)
+
+
+app.get('/', (req, res)=> {
+    console.log(process.env.DB_PASSWORD)
+    res.send('Probando API')
+})
+
 
 
 app.listen(app.get('port'), () => {

@@ -26,3 +26,25 @@ Content-Type: application/json
 {
     "DescripcionArea": "MKT"
 }
+
+###
+
+POST http://localhost:9000/auth/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "NombreUsuario": "crist12",
+    "ContraseniaUsuario": "ejemplo"
+}
+
+###
+POST http://localhost:9000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "NombreUsuario": "crist12",
+    "ContraseniaUsuario": "ejemplo"
+}
+
+###
+GET http://localhost:9000/auth/login HTTP/1.1
