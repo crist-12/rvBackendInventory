@@ -70,8 +70,22 @@ app.use('/auth', AuthRouter)
 
 
 app.get('/', (req, res)=> {
-    console.log(process.env.DB_PASSWORD)
-    res.send('Probando API')
+    var arr = [
+        {
+            nombre: "Hola",
+            id: 1
+        },
+        {
+            nombre: "Hola",
+            id: 2
+        },
+        {
+            nombre: "Hola",
+            id: 3
+        }
+    ]
+   // console.log(process.env.DB_PASSWORD)
+    res.json(arr)
 })
 
 

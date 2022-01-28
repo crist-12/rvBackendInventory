@@ -30,7 +30,7 @@ routes.post('/login', (req, res) => {
 
             if(err) return res.send(err)
             conn.query('SELECT * FROM usuarios WHERE NombreUsuario = ?',[username], (err, rows)=>{
-                if(err) return res.send(err)
+                if(err) return res.send({message: err})
                 
                 if(rows.length > 0){
                     bcrypt.compare(password, rows[0].ContraseniaUsuario, (error, response)=> {
