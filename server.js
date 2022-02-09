@@ -8,6 +8,28 @@ const cors = require('cors')
 require('dotenv').config()
 const app = express()
 
+const swaggerJsDoc = require("swagger-jsdoc")
+const swaggerUi = require("swagger-ui-express")
+const swaggerOptions = {
+    swaggerDefinition : {
+        info: {
+            title: "Inventory API",
+            description: "APIs de Sistema de Control de Inventario",
+            contact: {
+                name: "RV"
+            },
+            servers: ["http://localhost:9000/"]
+        }
+    },
+    apis: ['routes/*.js']
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+console.log(swaggerDocs)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+
+
 const CityRouter = require('./routes/cityRoutes')
 const AreaRouter = require('./routes/areaRoutes')
 const CategoryRouter = require('./routes/categoryRoutes')
@@ -67,7 +89,6 @@ app.use('/sucursales', SurcursalesRouter)
 app.use('/maintenance', MaintenanceRouter)
 app.use('/assignment', AssignmentRouter)
 app.use('/auth', AuthRouter)
-
 
 app.get('/', (req, res)=> {
     var arr = [

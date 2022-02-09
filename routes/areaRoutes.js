@@ -1,7 +1,16 @@
 const express = require('express')
 const routes = express.Router()
 
-
+/**
+ * @swagger
+ * /area:
+ *   get:
+ *     description: Obtiene todas las áreas de la empresa
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -25,6 +34,21 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /books:
+ *   post:
+ *     description: Get all books
+ *     parameters:
+ *      - name: title
+ *        description: title of the book
+ *        in: formData
+ *        required: true
+ *        type: string
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
