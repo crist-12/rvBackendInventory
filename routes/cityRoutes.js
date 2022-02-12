@@ -28,7 +28,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO ciudades SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO ciudades(NombreCiudad) VALUES (?)',[req.body], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
