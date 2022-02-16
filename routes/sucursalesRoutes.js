@@ -6,7 +6,7 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT * FROM sucursales", (err, rows) => {
+        conn.query("SELECT A.IdSucursal, A.NombreSucursal, B.NombreCiudad FROM sucursales AS A JOIN ciudades AS B ON A.IdCiudad = B.IdCiudad", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -28,7 +28,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO sucursales SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO sucursales (NombreSucursal, IdCiudad) VALUES (?, ?)',[req.body.NombreSucursal, req.body.IdCiudad], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

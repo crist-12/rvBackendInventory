@@ -1,6 +1,6 @@
 
 ###
-GET http://localhost:9000/ HTTP/1.1
+GET http://localhost:9000/sucursales HTTP/1.1
 
 ###
 POST http://localhost:9000/city/ HTTP/1.1

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const cors = require('cors')
+var morgan = require('morgan')
 require('dotenv').config()
 const app = express()
 
@@ -27,7 +28,7 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 console.log(swaggerDocs)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+app.use(morgan("dev"))
 
 
 const CityRouter = require('./routes/cityRoutes')
