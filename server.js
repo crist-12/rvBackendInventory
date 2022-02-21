@@ -41,6 +41,7 @@ const MaintenanceRouter = require('./routes/maintenanceRoutes')
 const BitacoraRouter = require('./routes/bitacoraRoutes')
 const AssignmentRouter = require('./routes/assigmentsRoutes')
 const AuthRouter = require('./routes/authRoutes')
+const ControlRouter = require('./routes/controlRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -90,6 +91,7 @@ app.use('/sucursales', SurcursalesRouter)
 app.use('/maintenance', MaintenanceRouter)
 app.use('/assignment', AssignmentRouter)
 app.use('/auth', AuthRouter)
+app.use('/control', ControlRouter)
 
 app.get('/', (req, res)=> {
     var arr = [

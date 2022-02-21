@@ -6,7 +6,19 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT A.IdEmpleado, A.NombreEmpleado, B.DescripcionArea FROM empleados AS A JOIN areas AS B ON A.IdArea = B.IdArea", (err, rows) => {
+        conn.query("SELECT A.DescripcionCategoria, B.CaracteristicaDescripcion, C.DescripcionTipo, B.Requerido, B.Nivel FROM categorias AS A JOIN caracteristica AS B ON A.IdCategoria = B.IdCategoria JOIN caracteristicatipo AS C ON B.CaracteristicaTipo = C.IdTipoCampo WHERE A.IdCategoria = 4", (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/types', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+
+        conn.query("SELECT * FROM caracteristicatipo", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -17,7 +29,7 @@ routes.get('/', (req, res)=>{
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
-        conn.query("SELECT * FROM empleados WHERE IdEmpleado = ?", [req.params.id], (err, rows) => {
+        conn.query("SELECT * FROM caracteristica WHERE IdCategoria = ?", 4, (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -28,7 +40,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO empleados (NombreEmpleado, EstadoEmpleado, IdArea) VALUES(?,?,?)',[req.body.NombreEmpleado, req.body.EstadoEmpleado, req.body.IdArea], (err, rows)=>{
+        conn.query('INSERT INTO categorias (DescripcionCategoria) VALUES (?)',[req.body.DescripcionCategoria], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -40,7 +52,7 @@ routes.post('/', (req, res)=>{
 routes.delete('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('DELETE FROM empleados WHERE IdEmpleado = ?',[req.params.id], (err, rows)=>{
+        conn.query('DELETE FROM categorias WHERE IdCategoria = ?',[req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -52,7 +64,7 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE empleados SET  ? WHERE IdEmpleado = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE categorias SET  ? WHERE IdCategoria = ?',[req.body, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
