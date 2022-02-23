@@ -1,6 +1,6 @@
 
 ###
-GET http://localhost:9000/control HTTP/1.1
+GET http://localhost:9000/groups HTTP/1.1
 
 ###
 POST http://localhost:9000/sucursales/ HTTP/1.1
@@ -19,7 +19,7 @@ POST http://localhost:9000/area HTTP/1.1
 Content-Type: application/json
 
 {
-    "DescripcionArea": "Marketing"
+    "DescripcionArea": "RRHH"
 }
 
 ###

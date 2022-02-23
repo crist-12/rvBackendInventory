@@ -40,7 +40,8 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO categorias (DescripcionCategoria) VALUES (?)',[req.body.DescripcionCategoria], (err, rows)=>{
+        console.log(req.body)
+        conn.query('INSERT INTO caracteristica (IdCategoria, CaracteristicaDescripcion, Estado, Nivel, Requerido, Placeholder, Tooltip, UsuarioCreo, CaracteristicaTipo ) VALUES (?,?,?,?,?,?,?,?,?)',[req.body.IdCategoria, req.body.CaracteristicaDescripcion, 1, req.body.Nivel, req.body.Requerido, req.body.Placeholder, req.body.Tooltip, req.body.UsuarioCreo, req.body.CaracteristicaTipo], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

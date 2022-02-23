@@ -42,6 +42,7 @@ const BitacoraRouter = require('./routes/bitacoraRoutes')
 const AssignmentRouter = require('./routes/assigmentsRoutes')
 const AuthRouter = require('./routes/authRoutes')
 const ControlRouter = require('./routes/controlRoutes')
+const GroupsRouter = require('./routes/groupsRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -92,26 +93,7 @@ app.use('/maintenance', MaintenanceRouter)
 app.use('/assignment', AssignmentRouter)
 app.use('/auth', AuthRouter)
 app.use('/control', ControlRouter)
-
-app.get('/', (req, res)=> {
-    var arr = [
-        {
-            nombre: "Hola",
-            id: 1
-        },
-        {
-            nombre: "Hola",
-            id: 2
-        },
-        {
-            nombre: "Hola",
-            id: 3
-        }
-    ]
-   // console.log(process.env.DB_PASSWORD)
-    res.json(arr)
-})
-
+app.use('/groups', GroupsRouter)
 
 
 app.listen(app.get('port'), () => {
