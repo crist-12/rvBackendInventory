@@ -1,6 +1,8 @@
 
+// login en nodejs
+
 ###
-GET http://localhost:9000/groups HTTP/1.1
+GET http://localhost:9000/control/filter/23 HTTP/1.1
 
 ###
 POST http://localhost:9000/sucursales/ HTTP/1.1
