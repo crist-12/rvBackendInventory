@@ -40,7 +40,18 @@ routes.get('/:id', (req, res)=>{
 routes.get('/filter/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
-        conn.query("SELECT * FROM caracteristica  WHERE IdCategoria = ? AND Estado = 1 ORDER BY Nivel ASC ", req.params.id, (err, rows) => {
+        conn.query("SELECT A.*, B.DescripcionTipo FROM caracteristica AS A JOIN caracteristicatipo AS B ON A.CaracteristicaTipo = B.IdTipoCampo WHERE A.IdCategoria = ? ORDER BY A.Nivel ASC", req.params.id, (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/options/:id', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+        conn.query("SELECT IdOpcion, IdCaracteristica, OpcionDescripcion FROM caracteristicaopcion WHERE IdCategoria = ? AND Estado = 1 ORDER BY IdCaracteristica ASC, Nivel ASC", req.params.id, (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -55,10 +66,22 @@ routes.post('/', (req, res)=>{
         conn.query('INSERT INTO caracteristica (IdCategoria, CaracteristicaDescripcion, Estado, Nivel, Requerido, Placeholder, Tooltip, UsuarioCreo, CaracteristicaTipo ) VALUES (?,?,?,?,?,?,?,?,?)',[req.body.IdCategoria, req.body.CaracteristicaDescripcion, 1, req.body.Nivel, req.body.Requerido, req.body.Placeholder, req.body.Tooltip, req.body.UsuarioCreo, req.body.CaracteristicaTipo], (err, rows)=>{
             if(err) return res.send(err)
 
-            res.json(rows);
+            res.json({"message": rows.insertId});
         })
-        
     })
+})
+
+routes.post('/detail', (req, res)=>{
+req.getConnection((err, conn)=>{
+    if(err) return res.send(err)
+       // if(req.body.CaracteristicaTipo == 4){
+            conn.query('INSERT INTO caracteristicaopcion (IdCategoria, IdCaracteristica, OpcionDescripcion, Nivel, Estado) VALUES(?,?,?,?,?)', [req.body.IdCategoria, req.body.IdCaracteristica, req.body.Valores, req.body.Nivel, 1 ], (err2, rows)=>{
+                if(err2) return res.send(err2)
+               // console.log(index)
+             res.json(rows);
+            })
+        //}
+})
 })
 
 routes.delete('/:id', (req, res)=>{
