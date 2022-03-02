@@ -1,25 +1,25 @@
 
 // login en nodejs
 
-POST http://localhost:9000/control/detail HTTP/1.1
+POST http://localhost:9000/control/state HTTP/1.1
+Content-Type: application/json
+
+{
+    "IdEquipo": 1,
+    "TipoEstado" : 1
+}
+###
+GET http://localhost:9000/control/equipos HTTP/1.1
+
+###
+POST http://localhost:9000/control/entries HTTP/1.1
 Content-Type: application/json
 
 {
     "IdCategoria": 1,
     "IdCaracteristica" : 1,
-    "Valores": "S1|S2|S3"
-
-}
-###
-GET http://localhost:9000/control/FILTER/54 HTTP/1.1
-
-###
-POST http://localhost:9000/sucursales/ HTTP/1.1
-Content-Type: application/json
-
-{
-    "NombreSucursal": "San Nicolás",
-    "IdCiudad" : 1
+    "Respuesta": 2,
+    "UsuarioCreo" : "cortiz12"
 }
 
 ###
