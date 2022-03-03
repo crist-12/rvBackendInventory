@@ -14,6 +14,18 @@ routes.get('/', (req, res)=>{
     })
 })
 
+routes.get('/details', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+
+        conn.query("SELECT A.IdEmpleado, A.NombreEmpleado, B.DescripcionArea, C.NombreSucursal, D.NombreCiudad FROM empleados AS A JOIN areas AS B ON A.IdArea = B.IdArea JOIN sucursales AS C ON C.IdSucursal = A.IdSucursal JOIN ciudades AS D ON C.IdCiudad = D.IdCiudad WHERE A.EstadoEmpleado = 1", (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)

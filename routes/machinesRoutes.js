@@ -17,7 +17,7 @@ routes.get('/', (req, res)=>{
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
-        conn.query("SELECT * FROM equipos WHERE IdEquipo = ?", [req.params.id], (err, rows) => {
+        conn.query("SELECT a.CaracteristicaDescripcion, if(c.IdOpcion IS NOT NULL, c.OpcionDescripcion, b.Respuesta) AS Respuesta, b.IdEquipoIngresado, a.CaracteristicaTipo FROM caracteristica a INNER JOIN caracteristicarespuesta b  ON a.IdCategoria = b.IdCategoria AND a.IdCaracteristica = b.IdCaracteristica LEFT JOIN caracteristicaopcion c ON b.Respuesta = c.IdOpcion AND a.IdCategoria = c.IdCategoria AND a.IdCaracteristica = c.IdCaracteristica WHERE a.IdCategoria = 1 AND b.IdEquipoIngresado = ?", [req.params.id], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)

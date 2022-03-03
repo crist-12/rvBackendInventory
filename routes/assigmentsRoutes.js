@@ -25,10 +25,21 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+routes.get('/details/:id', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+        conn.query("SELECT * FROM asignaciones WHERE IdAsignacion = ?", [req.params.id], (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO asignaciones SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO asignaciones(IdEmpleado, IdEquipo, DetalleAsignacion, IncluyeMochila, IncluyeMouse, IncluyeCargador, IncluyeTeclado) VALUES (?,?,?,?,?,?,?)',[req.body.IdEmpleado, req.body.IdEquipo, req.body.DetalleAsignacion, req.body.IncluyeMochila, req.body.IncluyeMouse, req.body.IncluyeCargador, req.body.IncluyeTeclado], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
