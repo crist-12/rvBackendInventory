@@ -1,6 +1,6 @@
 
 // login en nodejs
-
+// todo https://stackoverflow.com/questions/43622127/filtering-table-multiple-columns
 POST http://localhost:9000/control/state HTTP/1.1
 Content-Type: application/json
 
@@ -9,7 +9,8 @@ Content-Type: application/json
     "TipoEstado" : 1
 }
 ###
-GET http://localhost:9000/control/equipos HTTP/1.1
+GET http://localhost:9000/control/rows/2 HTTP/1.1
+
 
 ###
 POST http://localhost:9000/control/entries HTTP/1.1

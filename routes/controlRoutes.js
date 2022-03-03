@@ -37,7 +37,29 @@ routes.get('/key', (req, res) => {
     })
 })
 
-routes.get('/equipos', (req, res) => {
+routes.get('/headers/:id', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err)
+        conn.query("SELECT IdCategoria, IdCaracteristica, CaracteristicaDescripcion FROM caracteristica  WHERE IdCategoria = ? ORDER BY Nivel ASC", [req.params.id], (err, rows) => {
+            if (err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/rows/:id', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err)
+        conn.query("SELECT IdEquipoIngresado, IdCaracteristica, Respuesta FROM caracteristicarespuesta WHERE IdCategoria = ?", [req.params.id], (err, rows) => {
+            if (err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/equipos/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
         conn.query("SELECT GROUP_CONCAT(IF(b.CaracteristicaTipo = 4, c.OpcionDescripcion, a.Respuesta) SEPARATOR ' ') AS 'Equipo', e.DescripcionEstado, D.IdEquipo FROM caracteristicarespuesta AS A "+
