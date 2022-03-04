@@ -28,12 +28,11 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO mantenimientos SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO mantenimientos (ObservacionesMantenimiento, IdEquipo, IdTipoMantenimiento) VALUES (?,?,?)',[req.body.ObservacionesMantenimiento, req.body.IdEquipo, req.body.IdTipoMantenimiento], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
         })
-        
     })
 })
 
