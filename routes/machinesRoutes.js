@@ -54,7 +54,17 @@ routes.put('/:id', (req, res)=>{
         if(err) return res.send(err)
         conn.query('UPDATE equipos SET  ? WHERE IdEquipo = ?',[req.body, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
+            res.json(rows);
+        })
+        
+    })
+})
 
+routes.put('/status/:id', (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('UPDATE equiposestado SET TipoEstado = ? WHERE IdEquipo = ?',[req.body.TipoEstado, req.params.id], (err, rows)=>{
+            if(err) return res.send(err)
             res.json(rows);
         })
         

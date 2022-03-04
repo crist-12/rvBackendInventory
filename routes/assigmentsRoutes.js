@@ -36,6 +36,18 @@ routes.get('/details/:id', (req, res)=>{
     })
 })
 
+
+routes.get('/status/:id', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+        conn.query("SELECT * FROM equiposestado WHERE IdEquipo = ?", [req.params.id], (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
