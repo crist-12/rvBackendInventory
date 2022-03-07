@@ -12,7 +12,7 @@ const app = express()
 const swaggerJsDoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
 const swaggerOptions = {
-    swaggerDefinition : {
+    swaggerDefinition: {
         info: {
             title: "Inventory API",
             description: "APIs de Sistema de Control de Inventario",
@@ -55,6 +55,12 @@ const dbOptions = {
     database: process.env.DB_NAME
 }
 
+app.use(bodyParser.urlencoded({
+    limit: "50mb",
+    extended: false
+}));
+app.use(bodyParser.json({ limit: "50mb" }));
+
 app.use(myconn(mysql, dbOptions, 'single'))
 app.use(express.json())
 
@@ -65,10 +71,8 @@ app.use(cors({
     credentials: true
 }));
 
-
-
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.use(session({
     key: "session-key",
@@ -76,9 +80,10 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: {
-       expires: 60 * 30
+        expires: 60 * 30
     }
 }))
+
 
 app.use('/city', CityRouter)
 app.use('/area', AreaRouter)
