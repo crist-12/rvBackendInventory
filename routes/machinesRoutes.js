@@ -14,6 +14,18 @@ routes.get('/', (req, res)=>{
     })
 })
 
+routes.get('/update/:id', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+
+        conn.query("SELECT * FROM caracteristicarespuesta AS A JOIN caracteristica AS B ON A.IdCaracteristica = B.IdCaracteristica WHERE A.IdCategoria = 1 AND A.IdEquipoIngresado = ? ORDER BY B.Nivel", [req.params.id], (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)

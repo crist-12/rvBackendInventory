@@ -10,7 +10,7 @@ Content-Type: application/json
     "IdTipoMantenimiento": 2
 }
 ###
-GET http://localhost:9000/machines/7 HTTP/1.1
+GET http://localhost:9000/machines/update/7 HTTP/1.1
 
 
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/city/ HTTP/1.1
+GET http://localhost:9000/assignment/ HTTP/1.1
 
 ###
 POST http://localhost:9000/area HTTP/1.1
