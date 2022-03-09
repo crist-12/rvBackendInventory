@@ -18,7 +18,7 @@ routes.get('/update/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT * FROM caracteristicarespuesta AS A JOIN caracteristica AS B ON A.IdCaracteristica = B.IdCaracteristica WHERE A.IdCategoria = 1 AND A.IdEquipoIngresado = ? ORDER BY B.Nivel", [req.params.id], (err, rows) => {
+        conn.query("SELECT IdEquipoIngresado, A.IdCategoria, A.IdCaracteristica, Respuesta, CaracteristicaDescripcion, caracteristicatipo, Requerido, OpcionDescripcion FROM caracteristicarespuesta AS A JOIN caracteristica AS B ON A.IdCaracteristica = B.IdCaracteristica  LEFT JOIN caracteristicaopcion AS C ON C.IdOpcion = A.Respuesta WHERE A.IdCategoria = 1 AND A.IdEquipoIngresado = ? ORDER BY B.Nivel", [req.params.id], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -30,6 +30,17 @@ routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
         conn.query("SELECT a.CaracteristicaDescripcion, if(c.IdOpcion IS NOT NULL, c.OpcionDescripcion, b.Respuesta) AS Respuesta, b.IdEquipoIngresado, a.CaracteristicaTipo FROM caracteristica a INNER JOIN caracteristicarespuesta b  ON a.IdCategoria = b.IdCategoria AND a.IdCaracteristica = b.IdCaracteristica LEFT JOIN caracteristicaopcion c ON b.Respuesta = c.IdOpcion AND a.IdCategoria = c.IdCategoria AND a.IdCaracteristica = c.IdCaracteristica WHERE a.IdCategoria = 1 AND b.IdEquipoIngresado = ?", [req.params.id], (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+routes.get('/label/:id', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+        conn.query("SELECT OpcionDescripcion FROM caracteristicaopcion WHERE IdOpcion = ?", [req.params.id], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -64,9 +75,10 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE equipos SET  ? WHERE IdEquipo = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE caracteristicarespuesta SET Respuesta = ? WHERE IdEquipoIngresado = ? AND IdCaracteristica = ?',[req.body.Respuesta, req.body.IdEquipoIngresado, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
             res.json(rows);
+            console.log(rows)
         })
         
     })
