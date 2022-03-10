@@ -14,18 +14,16 @@ GET http://localhost:9000/machines/update/7 HTTP/1.1
 
 
 ###
-PUT  http://localhost:9000/machines/1 HTTP/1.1
+PUT  http://localhost:9000/machines/22 HTTP/1.1
 Content-Type: application/json
 
 {
-    "IdCategoria": 1,
-    "IdCaracteristica" : 1,
-    "Respuesta": 2,
-    "UsuarioCreo" : "cortiz12"
+    "Respuesta": 1,
+    "IdEquipoIngresado" : 1
 }
 
 ###
-GET http://localhost:9000/assignment/ HTTP/1.1
+GET http://localhost:9000/category/table HTTP/1.1
 
 ###
 POST http://localhost:9000/area HTTP/1.1
@@ -36,12 +34,15 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:9000/machines/status/7 HTTP/1.1
+put http://localhost:9000/category/update/1 HTTP/1.1
 Content-Type: application/json
-
 {
-    "TipoEstado": 3
+    "CaracteristicaDescripcion": "Marcas",
+    "Placeholder": "Marcas",
+    "Requerido": 0,
+    "IdCaracteristica": 1
 }
+
 
 ###
 
