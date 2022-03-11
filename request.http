@@ -10,32 +10,38 @@ Content-Type: application/json
     "IdTipoMantenimiento": 2
 }
 ###
-GET http://localhost:9000/machines/update/7 HTTP/1.1
+GET http://localhost:9000/sucursales/all HTTP/1.1
 
 
 ###
-PUT  http://localhost:9000/machines/22 HTTP/1.1
+PUT  http://localhost:9000/employee/1 HTTP/1.1
 Content-Type: application/json
 
 {
-    "Respuesta": 1,
-    "IdEquipoIngresado" : 1
+    "NombreEmpleado": "Ejemplo 1",
+    "Email" : "ejemplo@ejemplo.com",
+    "IdSucursal": 1,
+    "IdCiudad": 1,
+    "IdArea": 1,
+    "EstadoEmpleado": 0
 }
 
 ###
 GET http://localhost:9000/category/table HTTP/1.1
 
 ###
-POST http://localhost:9000/area HTTP/1.1
+POST http://localhost:9000/bitacora HTTP/1.1
 Content-Type: application/json
 
 {
-    "DescripcionArea": "RRHH"
+    "Accion": "RRHH",
+    "Modulo": "RRHH",
 }
 
 ###
 put http://localhost:9000/category/update/1 HTTP/1.1
 Content-Type: application/json
+
 {
     "CaracteristicaDescripcion": "Marcas",
     "Placeholder": "Marcas",

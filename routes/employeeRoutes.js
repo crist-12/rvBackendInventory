@@ -6,7 +6,7 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT A.IdEmpleado, A.NombreEmpleado, B.DescripcionArea FROM empleados AS A JOIN areas AS B ON A.IdArea = B.IdArea", (err, rows) => {
+        conn.query("SELECT * FROM empleados AS A JOIN areas AS B ON A.IdArea = B.IdArea JOIN sucursales AS C ON A.IdSucursal = C.IdSucursal JOIN ciudades AS D ON C.IdCiudad = D.IdCiudad", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -26,6 +26,18 @@ routes.get('/details', (req, res)=>{
     })
 })
 
+routes.put('/changestatus/:id', (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query('UPDATE empleados SET EstadoEmpleado = IF(EstadoEmpleado = 1, 0, 1) WHERE IdEmpleado = ?',[req.params.id], (err, rows)=>{
+            if(err) return res.send(err)
+
+            res.json(rows);
+        })
+        
+    })
+})
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -40,7 +52,8 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO empleados (NombreEmpleado, EstadoEmpleado, IdArea) VALUES(?,?,?)',[req.body.NombreEmpleado, req.body.EstadoEmpleado, req.body.IdArea], (err, rows)=>{
+        conn.query('INSERT INTO empleados (NombreEmpleado, Email, IdArea, IdSucursal, EstadoEmpleado) VALUES(?,?,?,?,?)',
+        [req.body.NombreEmpleado, req.body.Email, req.body.IdArea, req.body.IdSucursal, 1], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -64,9 +77,10 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE empleados SET  ? WHERE IdEmpleado = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE empleados SET NombreEmpleado = ?, Email = ?, IdArea = ?, IdSucursal = ?, EstadoEmpleado = ? WHERE IdEmpleado = ?',[req.body.NombreEmpleado, req.body.Email, req.body.IdArea, req.body.IdSucursal, req.body.EstadoEmpleado, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
-
+            console.log(req.body)
+            console.log(req.params.id)
             res.json(rows);
         })
         

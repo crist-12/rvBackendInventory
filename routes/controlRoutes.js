@@ -98,6 +98,18 @@ routes.get('/filter/:id', (req, res) => {
     })
 })
 
+routes.get('/lastlevel/:id', (req, res) => {
+    req.getConnection((err, conn) => {
+        if (err) return res.send(err)
+        conn.query("SELECT MAX(Nivel) AS 'LastNivel' FROM caracteristica WHERE IdCategoria = ?", req.params.id, (err, rows) => {
+            if (err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+
 routes.get('/options/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)

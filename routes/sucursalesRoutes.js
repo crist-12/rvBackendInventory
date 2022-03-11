@@ -14,10 +14,23 @@ routes.get('/', (req, res)=>{
     })
 })
 
+routes.get('/all', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+
+        conn.query("SELECT * FROM sucursales", (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
-        conn.query("SELECT * FROM sucursales WHERE IdSucursal = ?", [req.params.id], (err, rows) => {
+        conn.query("SELECT * FROM sucursales WHERE IdCiudad = ?", [req.params.id], (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
