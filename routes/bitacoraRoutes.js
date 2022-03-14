@@ -6,7 +6,7 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT Accion, Modulo, DATE_FORMAT(Fecha, '%d/%m/%y %h:%i %p') AS 'Fecha' FROM bitacora", (err, rows) => {
+        conn.query("SELECT Accion, Modulo, DATE_FORMAT(Fecha, '%d/%m/%y %h:%i %p') AS 'FechaF' FROM bitacora ORDER BY Fecha DESC", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)

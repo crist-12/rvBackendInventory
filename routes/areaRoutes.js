@@ -52,7 +52,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO areas SET ?',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO areas(DescripcionArea) VALUES (?)',[req.body.DescripcionArea], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -76,7 +76,7 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE areas SET  ? WHERE IdArea = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE areas SET DescripcionArea = ? WHERE IdArea = ?',[req.body.DescripcionArea, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

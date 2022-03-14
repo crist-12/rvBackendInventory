@@ -28,7 +28,7 @@ routes.get('/:id', (req, res)=>{
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('INSERT INTO ciudades(NombreCiudad) VALUES (?)',[req.body], (err, rows)=>{
+        conn.query('INSERT INTO ciudades(NombreCiudad) VALUES (?)',[req.body.NombreCiudad], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);
@@ -52,7 +52,7 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE ciudades SET  ? WHERE IdCiudad = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE ciudades SET NombreCiudad = ? WHERE IdCiudad = ?',[req.body.NombreCiudad, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

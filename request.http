@@ -27,15 +27,15 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:9000/category/table HTTP/1.1
+GET http://localhost:9000/auth/sessions/crist12 HTTP/1.1
 
 ###
-POST http://localhost:9000/bitacora HTTP/1.1
+POST http://localhost:9000/bitacora/sessions/"crist12" HTTP/1.1
 Content-Type: application/json
 
 {
     "Accion": "RRHH",
-    "Modulo": "RRHH",
+    "Modulo": "RRHH"
 }
 
 ###

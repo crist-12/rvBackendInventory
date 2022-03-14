@@ -6,7 +6,7 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
 
-        conn.query("SELECT A.IdSucursal, A.NombreSucursal, B.NombreCiudad FROM sucursales AS A JOIN ciudades AS B ON A.IdCiudad = B.IdCiudad", (err, rows) => {
+        conn.query("SELECT A.IdSucursal, A.NombreSucursal, B.NombreCiudad, B.IdCiudad FROM sucursales AS A JOIN ciudades AS B ON A.IdCiudad = B.IdCiudad", (err, rows) => {
             if(err) return res.send(err)
 
             res.json(rows)
@@ -65,7 +65,7 @@ routes.delete('/:id', (req, res)=>{
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
-        conn.query('UPDATE sucursales SET  ? WHERE IdSucursal = ?',[req.body, req.params.id], (err, rows)=>{
+        conn.query('UPDATE sucursales SET NombreSucursal =?, IdCiudad = ?  WHERE IdSucursal = ?',[req.body.NombreSucursal, req.body.IdCiudad, req.params.id], (err, rows)=>{
             if(err) return res.send(err)
 
             res.json(rows);

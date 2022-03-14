@@ -26,6 +26,30 @@ routes.get('/', (req, res)=>{
     })
 })
 
+routes.get('/history', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+
+        conn.query("SELECT GROUP_CONCAT(IF(b.CaracteristicaTipo = 4, c.OpcionDescripcion, a.Respuesta) SEPARATOR ' ') AS 'Equipo', "+
+        "E.NombreEmpleado, D.DetalleAsignacion, DATE_FORMAT(D.FechaAsignacion, '%d/%m/%y %h:%i:%s %p') AS 'FechaAsignacion', D.IncluyeMochila, "+
+        "D.IncluyeMouse, D.IncluyeCargador, D.IncluyeTeclado, D.IncluyeWebCam, "+
+        "F.DescripcionArea, H.NombreCiudad, G.NombreSucursal, DATE_FORMAT(D.FechaRemocion, '%d/%m/%y %h:%i:%s %p') AS 'FechaRemocion'  FROM caracteristicarespuesta AS A "+
+        "INNER JOIN caracteristica AS B ON A.IdCategoria = B.IdCategoria AND A.IdCaracteristica = B.IdCaracteristica "+
+        "LEFT JOIN caracteristicaopcion AS C ON A.Respuesta = C.IdOpcion AND A.IdCategoria = C.IdCategoria AND A.IdCaracteristica = C.IdCaracteristica "+
+        "JOIN asignacioneshistorico AS D ON A.IdEquipoIngresado = D.IdEquipo "+
+        "JOIN empleados AS E ON D.IdEmpleado = E.IdEmpleado "+
+        "JOIN areas AS F ON F.IdArea = E.IdArea "+
+        "JOIN sucursales AS G ON G.IdSucursal = E.IdSucursal "+
+        "JOIN ciudades AS H ON G.IdCiudad = H.IdCiudad "+
+        "WHERE A.IdCaracteristica IN(1, 3, 6) AND A.IdCategoria = 1 "+
+        "GROUP BY A.FechaIngreso, D.FechaRemocion", (err, rows) => {
+            if(err) return res.send(err)
+
+            res.json(rows)
+        })
+    })
+})
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)

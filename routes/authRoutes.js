@@ -62,4 +62,15 @@ routes.get('/login', (req, res)=>{
     })
 })
 
+routes.get('/sessions/:username', (req, res)=>{
+    req.getConnection((err, conn)=> {
+        if(err) return res.send(err)
+        conn.query("SELECT IdBitacora, Accion, DATE_FORMAT(Fecha, '%d/%m/%y %h:%i:%s %p') AS 'FechaF' FROM bitacora WHERE Accion LIKE CONCAT('%',?,'%') AND Accion LIKE '%sistema' ORDER BY Fecha DESC LIMIT 20", [req.params.username], (err, rows) => {
+            if(err) return res.send(err)
+            console.log(req.params.username);
+            res.json(rows)
+        })
+    })
+})
+
 module.exports = routes
