@@ -43,6 +43,7 @@ const AssignmentRouter = require('./routes/assigmentsRoutes')
 const AuthRouter = require('./routes/authRoutes')
 const ControlRouter = require('./routes/controlRoutes')
 const GroupsRouter = require('./routes/groupsRoutes')
+const DashboardRouter = require('./routes/dashboardRoutes')
 
 app.set('port', process.env.PORT || 9000)
 
@@ -97,6 +98,7 @@ app.use('/assignment', AssignmentRouter)
 app.use('/auth', AuthRouter)
 app.use('/control', ControlRouter)
 app.use('/groups', GroupsRouter)
+app.use('/dashboard', DashboardRouter);
 
 
 app.listen(app.get('port'), () => {
