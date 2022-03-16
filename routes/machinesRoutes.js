@@ -107,4 +107,15 @@ routes.put('/status/:id', (req, res)=>{
     })
 })
 
+routes.put('/receivedcheck/:id', (req, res)=>{
+    req.getConnection((err, conn)=>{
+        if(err) return res.send(err)
+        conn.query("UPDATE equiposestado SET TipoEstado = IF((SELECT COUNT(DISTINCT A.IdEquipo) AS 'Bandera' FROM asignaciones AS A WHERE A.IdEquipo = ?) = 1, 1, 2) WHERE IdEquipo = ?",[req.body.TipoEstado, req.params.id], (err, rows)=>{
+            if(err) return res.send(err)
+            res.json(rows);
+        })
+        
+    })
+})
+
 module.exports = routes
