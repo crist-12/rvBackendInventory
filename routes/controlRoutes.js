@@ -1,7 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 
-
+/**
+ * @swagger
+ * /control:
+ *   get:
+ *     description: Obtiene registros de los controles registrados
+ *     tags: [Controles]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -14,6 +24,17 @@ routes.get('/', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/types:
+ *   get:
+ *     description: Obtiene todos los tipos de datos existentes
+ *     tags: [Controles]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/types', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -26,6 +47,17 @@ routes.get('/types', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/key:
+ *   get:
+ *     description: Obtiene el último equipos ingresado, esto para llevar un "correlativo" con los equipos ingresados
+ *     tags: [Controles]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/key', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -37,6 +69,21 @@ routes.get('/key', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/headers/{id}:	
+ *   get:
+ *     description: Obtiene todas las cabeceras (los campos que definimos por cada entidad/producto) listas para desplegarse en una tabla
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la entidad/producto
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/headers/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -48,6 +95,21 @@ routes.get('/headers/:id', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/rows/{id}:	
+ *   get:
+ *     description: Obtiene un listado de todas las entidades/productos registrados (listos para mostrarse en una tabla), se aplica pivote en frontend
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la entidad/producto
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/rows/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -59,6 +121,17 @@ routes.get('/rows/:id', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/equipos:
+ *   get:
+ *     description: Obtiene un registro de todas las COMPUTADORAS registradas
+ *     tags: [Controles]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/equipos', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -75,6 +148,21 @@ routes.get('/equipos', (req, res) => {
             })
     })
 })
+/**
+ * @swagger
+ * /control/rows/{id}:	
+ *   get:
+ *     description: Obtiene un listado de las características que pertenezcan a la categoría de la entidad/producto
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la entidad/producto
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 
 routes.get('/:id', (req, res) => {
     req.getConnection((err, conn) => {
@@ -87,6 +175,21 @@ routes.get('/:id', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/filter/{id}:	
+ *   get:
+ *     description: Obtiene un registro de un determinado equipo dado su código
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la categoría
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/filter/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -98,6 +201,21 @@ routes.get('/filter/:id', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/lastlevel/{id}:	
+ *   get:
+ *     description: Obtiene un registro del último nivel ingresado, este para cuando vaya a ingresar un nuevo registro, tome el puesto que le corresponde.
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la categoría
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/lastlevel/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -109,7 +227,21 @@ routes.get('/lastlevel/:id', (req, res) => {
     })
 })
 
-
+/**
+ * @swagger
+ * /control/options/{id}:	
+ *   get:
+ *     description: Obtiene un listado de las opciones, esto aplica para campos de tipo Selección.
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código de la entidad/producto
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/options/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -121,6 +253,57 @@ routes.get('/options/:id', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control:
+ *   post:
+ *     description: Inserta una nueva característica
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdCategoría
+ *        description: Código de la categoría a insertar 
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: CaracteristicaDescripcion
+ *        description: Nombre de la característica
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: Estado
+ *        description: Estado Activo/Inactivo
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *      - name: Nivel
+ *        description: Posición u el orden en que se deben mostrar las características
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: Requerido
+ *        description: Si el campo debe ser obligatorio o no
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *      - name: Placeholder
+ *        description: https://developer.mozilla.org/es/docs/Web/CSS/::placeholder
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: Tooltip
+ *        description: Mensaje que se despliega al ubicar el cursor sobre el elemento
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: UsuarioCreo
+ *        description: Usuario que creó la característica
+ *        in: formData
+ *        required: true
+ *        type: string
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -133,6 +316,42 @@ routes.post('/', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/detail:
+ *   post:
+ *     description: Inserta las opciones si existe un campo de Selección mientras se crea la nueva entidad
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdCategoria
+ *        description: Código de la categoría con la que se está tratando
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdCaracteristica
+ *        description: Código de la característica con la que se está tratando
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: OpcionDescripcion
+ *        description: Nombre de la opción que se está insertando
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: Nivel
+ *        description: Posicion u orden en el que se deben mostrar las opciones
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: Estado
+ *        description: Estado de la opción Activo/Inactivo
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/detail', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -146,6 +365,28 @@ routes.post('/detail', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/state:
+ *   post:
+ *     description: Inserta un registro cada vez que se ingresa un nuevo equipo al sistema, por defecto lo asigna como activo y no asignado
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdEquipo
+ *        description: Código del equipo
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: TipoEstado
+ *        description: Por defecto toma el valor 1, NO ASIGNADO
+ *        in: formData
+ *        required: true
+ *        type: integer
+
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/state', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -159,9 +400,43 @@ routes.post('/state', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/entries:
+ *   post:
+ *     description: Inserta un nuevo registro cuando quiere ingresar un nuevo equipo al sistema
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdEquipoIngresado
+ *        description: Código del equipo
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdCategoria
+ *        description: Código de la categoría a la que pertenece el producto ingresado
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdCaracterística
+ *        description: Código que representa la característica o la pregunta que está respondiendo el usuario
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: Respuesta
+ *        description: Respuesta a la pregunta
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: UsuarioCreo
+ *        description: Usuario que ingresa la respuesta
+ *        in: formData
+ *        required: true
+ *        type: string
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/entries', (req, res) => {
-
-    
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
         console.log(req.body)
@@ -175,6 +450,37 @@ routes.post('/entries', (req, res) => {
     })
 })
 
+/**
+ * @swagger
+ * /control/entry:
+ *   post:
+ *     description: Inserta un nuevo registro cuando quiere ingresar un nuevo equipo al sistema
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdCategoria
+ *        description: Código de la categoría a la que pertenece el producto ingresado
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdCaracterística
+ *        description: Código que representa la característica o la pregunta que está respondiendo el usuario
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: Respuesta
+ *        description: Respuesta a la pregunta
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: UsuarioCreo
+ *        description: Usuario que ingresa la respuesta
+ *        in: formData
+ *        required: true
+ *        type: string
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/entry', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
@@ -187,23 +493,26 @@ routes.post('/entry', (req, res) => {
         //}
     })
 })
-
+/**
+ * @swagger
+ * /{id}:
+ *   delete:
+ *     description: Elimina un categoría del sistema
+ *     tags: [Controles]
+ *     parameters:
+ *      - name: IdCategoria
+ *        description: Código de la categoria
+ *        in: path
+ *        required: true
+ *        type: integer
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.delete('/:id', (req, res) => {
     req.getConnection((err, conn) => {
         if (err) return res.send(err)
         conn.query('DELETE FROM categorias WHERE IdCategoria = ?', [req.params.id], (err, rows) => {
-            if (err) return res.send(err)
-
-            res.json(rows);
-        })
-
-    })
-})
-
-routes.put('/:id', (req, res) => {
-    req.getConnection((err, conn) => {
-        if (err) return res.send(err)
-        conn.query('UPDATE categorias SET  ? WHERE IdCategoria = ?', [req.body, req.params.id], (err, rows) => {
             if (err) return res.send(err)
 
             res.json(rows);

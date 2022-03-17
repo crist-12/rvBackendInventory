@@ -2,18 +2,17 @@ const express = require('express')
 const routes = express.Router()
 
 
-routes.get('/', (req, res)=>{
-    req.getConnection((err, conn)=> {
-        if(err) return res.send(err)
-
-        conn.query("SELECT * FROM equipos", (err, rows) => {
-            if(err) return res.send(err)
-
-            res.json(rows)
-        })
-    })
-})
-
+/**
+ * @swagger
+ * /machines/types:
+ *   get:
+ *     description: Obtiene un listado con todos los tipos de datos con los que puedes crear tu entidad.
+ *     tags: [Equipos]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/types', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -26,6 +25,21 @@ routes.get('/types', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /machines/update/{id}:
+ *   get:
+ *     description: Cuando se quiere editar un equipo, se cargan todos los datos para mostrarse al usuario y pueda editarlos de una manera más amigable.
+ *     tags: [Equipos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del equipo
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/update/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -38,6 +52,21 @@ routes.get('/update/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /machines/{id}:
+ *   get:
+ *     description: Obtiene todos los datos de un equipo, incluyendo todas las características y las respuestas, especificado por el código del equipo.
+ *     tags: [Equipos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del equipo
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -49,6 +78,21 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /machines/label/{id}:
+ *   get:
+ *     description: Obtiene la descripción de cada una de las opciones (de los campos que sean de tipo Selección)
+ *     tags: [Equipos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del equipo
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/label/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -60,17 +104,6 @@ routes.get('/label/:id', (req, res)=>{
     })
 })
 
-routes.post('/', (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('INSERT INTO equipos SET ?',[req.body], (err, rows)=>{
-            if(err) return res.send(err)
-
-            res.json(rows);
-        })
-        
-    })
-})
 
 routes.delete('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
@@ -96,6 +129,26 @@ routes.put('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /machines/status/{id}:
+ *   put:
+ *     description: Cambia el estado de un equipo especificado por el código del equipo y el estado al que se desea cambiar 1 - Sin asignar  2 - Asignado  3 - En Mantenimiento  4 - No disponible
+ *     tags: [Equipos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del equipo
+ *      - name: TipoEstado
+ *        in: FormData
+ *        description: Tipo de Estado
+ *        required: true
+ *        type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.put('/status/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -107,6 +160,22 @@ routes.put('/status/:id', (req, res)=>{
     })
 })
 
+
+/**
+ * @swagger
+ * /machines/receivedcheck/{id}:
+ *   put:
+ *     description: Cuando un equipo se recibe de mantenimiento, esta API busca en la tabla de asignaciones si está asignada, en ese caso, le coloca que está asignada, caso contrario la recibe y la coloca como Sin asignar
+ *     tags: [Equipos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del equipo
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.put('/receivedcheck/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)

@@ -1,0 +1,22 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0", 
+      "title": "Inventario de Equipo RV",
+      "description": "Aplicación de gestión de inventario de equipo de Recarga Veloz",
+      "license": {
+        "name": "MIT"
+      }
+    },
+    "host": "localhost:9000",
+    "basePath": "/",
+    "tags": [
+      {
+        "name": "Áreas",
+        "description": "Manejo de las peticiones del área de la empresa"
+      }
+    ],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "apis": ["docs/*.json"]
+  }

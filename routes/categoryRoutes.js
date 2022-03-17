@@ -1,7 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 
-
+/**
+ * @swagger
+ * /category/{id}:
+ *   get:
+ *     description: Obtiene todas las categorias activas
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -14,6 +24,17 @@ routes.get('/', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/table/{id}:
+ *   get:
+ *     description: Obtiene todas los registros de la tabla a mostrar en la tabla de categorias
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/table', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -26,6 +47,18 @@ routes.get('/table', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/{id}:
+ *   get:
+ *     description: Obtiene una categoría en específico
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -37,6 +70,17 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/update/{id}:
+ *   get:
+ *     description: Obtiene un listado de los datos que serán utilizados para mostrar en el modal que le permitirá actualizar una categoría
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/update/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -48,6 +92,17 @@ routes.get('/update/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/items/{id}:
+ *   get:
+ *     description: Obtiene un listado de los items del campo de tipo Seleccion que el usuario quiera editar
+ *     tags: [Categorías]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/items/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -59,6 +114,37 @@ routes.get('/items/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category:
+ *   post:
+ *     description: Inserta un nuevo registro de la categoría
+ *     tags: [Categorías]
+ *     parameters:
+ *      - name: DescripcionCategoria
+ *        description: Nombre de la categoría/entidad que se desea registrar
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: EstadoCategoria
+ *        description: Estado activo/inactivo de la categoría
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *      - name: UsuarioCreo
+ *        description: Nombre de usuario que creó el registro
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: IdGrupo
+ *        description: Codigo de identificacion del grupo al que pertenece la categoría
+ *        in: formData
+ *        required: true
+ *        type: int
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -71,6 +157,42 @@ routes.post('/', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/items:
+ *   post:
+ *     description: Cuando se inserta un campo de tipo Seleccion, se debe insertar en la table caracteristicaopcion
+ *     tags: [Categorías]
+ *     parameters:
+ *      - name: IdCategoria
+ *        description: Codigo de la categoria que tiene esta caracteristica de tipo Seleccion
+ *        in: formData
+ *        required: true
+ *        type: int
+ *      - name: IdCaracteristica
+ *        description: Código de la caracteristica que posee estas opciones
+ *        in: formData
+ *        required: true
+ *        type: int
+ *      - name: OpcionDescripcion
+ *        description: Descripcion de la opcion
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: Nivel
+ *        description: Orden que siguen las opciones al ser desplegadas
+ *        in: formData
+ *        required: true
+ *        type: int
+ *      - name: Estado
+ *        description: Estado Activo/Inactivo de la opción
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/items', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -83,20 +205,21 @@ routes.post('/items', (req, res)=>{
     })
 })
 
-
-
-routes.delete('/:id', (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('DELETE FROM categorias WHERE IdCategoria = ?',[req.params.id], (err, rows)=>{
-            if(err) return res.send(err)
-
-            res.json(rows);
-        })
-        
-    })
-})
-
+/**
+ * @swagger
+ * /category/changestatus/{id}:
+ *   put:
+ *     description: Cambia el estado de una categoría, si está activa se desactiva y viceversa
+ *     tags: [Categorías]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: id de la categoría a desactivar
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.put('/changestatus/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -109,6 +232,38 @@ routes.put('/changestatus/:id', (req, res)=>{
     })
 })
 
+
+/**
+ * @swagger
+ * /category/update/{id}:
+ *   put:
+ *     description: Actualiza los datos de la categoría
+ *     tags: [Categorías]
+ *     parameters:
+ *      - name: IdCategoria
+ *        in: path
+ *        description: Código de la categoría/entidad que se desea actualizar
+ *      - name: CaracteristicaDescripcion
+ *        in: formData
+ *        description: Nombre de la categoría/entidad que se desea actualizar
+ *        type: string
+ *      - name: Placeholder
+ *        in: formData
+ *        description: https://developer.mozilla.org/es/docs/Web/CSS/::placeholder
+ *        type: string
+ *      - name: Requerido
+ *        in: formData
+ *        description: Si debe ser obligatorio o no el campo cuando se esté creando uno en la pantalla de creación de una nuevo equipo
+ *        type: boolean
+ *      - name: IdCaracteristica
+ *        in: formData
+ *        description: Si debe ser obligatorio o no el campo
+ *        type: boolean
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.put('/update/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -121,6 +276,39 @@ routes.put('/update/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /category/udpateitems/{id}:
+ *   put:
+ *     description: Actualiza los items de un campo Seleccion de la categoría
+ *     tags: [Categorías]
+ *     parameters:
+ *      - name: Estado
+ *        in: formData
+ *        description: Estado de la opcion Activo/Inactivo
+ *        type: boolean
+ *        required: true
+ *      - name: OpcionDescripcion
+ *        in: formData
+ *        description: Nombre de la opcion del campo de tipo Seleccion que se desea actualizar
+ *        type: string
+ *      - name: IdCategoria
+ *        in: formData
+ *        description: Código de la categoría que tiene esta caracteristica de tipo Seleccion
+ *        type: int
+ *      - name: IdCaracteristica
+ *        in: formData
+ *        description: Código de la caracteristica que posee estas opciones
+ *        type: int
+ *      - name: IdOpcion
+ *        in: formData
+ *        description: Código de la opción a ser modificada
+ *        type: boolean
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.put('/updateitems', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -133,16 +321,5 @@ routes.put('/updateitems', (req, res)=>{
     })
 })
 
-routes.put('/:id', (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('UPDATE categorias SET  ? WHERE IdCategoria = ?',[req.body, req.params.id], (err, rows)=>{
-            if(err) return res.send(err)
-
-            res.json(rows);
-        })
-        
-    })
-})
 
 module.exports = routes

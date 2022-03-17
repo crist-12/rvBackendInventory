@@ -11,7 +11,9 @@ const app = express()
 
 const swaggerJsDoc = require("swagger-jsdoc")
 const swaggerUi = require("swagger-ui-express")
-const swaggerOptions = {
+//const swaggerDocument = require("./swagger.json")
+
+ const swaggerOptions = {
     swaggerDefinition: {
         info: {
             title: "Inventory API",
@@ -26,7 +28,7 @@ const swaggerOptions = {
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-console.log(swaggerDocs)
+//console.log(swaggerDocs)
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(morgan("dev"))
 

@@ -2,6 +2,17 @@ const express = require('express')
 const routes = express.Router()
 
 
+/**
+ * @swagger
+ * /maintenance:
+ *   get:
+ *     description: Obtiene el registro de los mantenimientos que se han hecho.
+ *     tags: [Mantenimientos]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -24,6 +35,22 @@ routes.get('/', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /maintenance/{id}:
+ *   get:
+ *     description: Obtiene los datos de un mantenimiento específico.
+ *     tags: [Mantenimientos]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del Mantenimiento
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
+
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -35,6 +62,32 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /maintenance:
+ *   post:
+ *     description: Inserta un nuevo mantenimiento
+ *     tags: [Mantenimientos]
+ *     parameters:
+ *      - name: ObservacionesMantenimiento
+ *        description: Una pequeña observacion del porqué se realizó el mantenimiento
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: IdEquipo
+ *        description: Código del equipo que se realizó el mantenimiento
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdTipoMantenimiento
+ *        description: Código del tipo de mantenimiento que se realizó, puede ser predictivo, preventivo o correctivo
+ *        in: formData
+ *        required: true
+ *        type: string
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -46,28 +99,5 @@ routes.post('/', (req, res)=>{
     })
 })
 
-routes.delete('/:id', (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('DELETE FROM mantenimientos WHERE IdMantenimiento = ?',[req.params.id], (err, rows)=>{
-            if(err) return res.send(err)
-
-            res.json(rows);
-        })
-        
-    })
-})
-
-routes.put('/:id', (req, res)=>{
-    req.getConnection((err, conn)=>{
-        if(err) return res.send(err)
-        conn.query('UPDATE mantenimientos SET  ? WHERE IdMantenimiento = ?',[req.body, req.params.id], (err, rows)=>{
-            if(err) return res.send(err)
-
-            res.json(rows);
-        })
-        
-    })
-})
 
 module.exports = routes

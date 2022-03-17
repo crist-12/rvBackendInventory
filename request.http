@@ -10,7 +10,7 @@ Content-Type: application/json
     "IdTipoMantenimiento": 2
 }
 ###
-GET http://localhost:9000/dashboard HTTP/1.1
+GET http://localhost:9000/groups HTTP/1.1
 
 
 ###

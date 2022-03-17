@@ -1,7 +1,17 @@
 const express = require('express')
 const routes = express.Router()
 
-
+/**
+ * @swagger
+ * /employee:
+ *   get:
+ *     description: Obtiene el listado de empleados registrados en el sistema
+ *     tags: [Empleados]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -13,6 +23,18 @@ routes.get('/', (req, res)=>{
         })
     })
 })
+
+/**
+ * @swagger
+ * /employee/details:
+ *   get:
+ *     description: Obtiene los registros de manera más detallada de los empleados, su área, ciudad y sucursal
+ *     tags: [Empleados]
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 
 routes.get('/details', (req, res)=>{
     req.getConnection((err, conn)=> {
@@ -26,6 +48,23 @@ routes.get('/details', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /employee/changestatus/{id}:
+ *   put:
+ *     description: Cambia el estado del empleado, de activo a inactivo o viceversa
+ *     tags: [Empleados]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del Empleado
+ *        type: integer
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
+
 routes.put('/changestatus/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -38,6 +77,21 @@ routes.put('/changestatus/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /employee/{id}:
+ *   get:
+ *     description: Obtiene los datos de un empleado en específico
+ *     tags: [Empleados]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del Empleado
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 routes.get('/:id', (req, res)=>{
     req.getConnection((err, conn)=> {
         if(err) return res.send(err)
@@ -49,6 +103,42 @@ routes.get('/:id', (req, res)=>{
     })
 })
 
+/**
+ * @swagger
+ * /employee:
+ *   post:
+ *     description: Inserta un nuevo empleado
+ *     tags: [Empleados]
+ *     parameters:
+ *      - name: NombreEmpleado
+ *        description: Nombre del empleado a insertar
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: Email
+ *        description: Correo electrónico del empleado a insertar
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: IdArea
+ *        description: Código del área al que pertenece el empleado
+ *        in: formData
+ *        required: true
+ *        type: integer
+ *      - name: IdSucursal
+ *        description: Código de la sucursal a la que pertenece el empleado
+ *        in: formData
+ *        required: true
+ *        type: string
+ *      - name: EstadoEmpleado
+ *        description: Estado del empleado Activo / Inactivo
+ *        in: formData
+ *        required: true
+ *        type: boolean
+ *     responses:
+ *       201:
+ *         description: Created
+ */
 routes.post('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
@@ -73,6 +163,31 @@ routes.delete('/:id', (req, res)=>{
         
     })
 })
+
+/**
+ * @swagger
+ * /employee/{id}:
+ *   put:
+ *     description: Actualiza los datos de un empleado en específico
+ *     tags: [Empleados]
+ *     parameters:
+ *      - name: id
+ *        in: path
+ *        description: Código del Empleado a actualizar
+ *        type: integer
+ *      - name: NombreEmpleado
+ *        in: FormData
+ *        description: Nombre del Empleado a actualizar
+ *        type: string
+ *      - name: Email
+ *        in: FormData
+ *        description: Correo electrónico del Empleado a actualizar
+ *        type: string
+ *     responses:
+ *       200:
+ *         description: Success
+ * 
+ */
 
 routes.put('/:id', (req, res)=>{
     req.getConnection((err, conn)=>{
